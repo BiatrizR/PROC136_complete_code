@@ -6,6 +6,7 @@ from data import data
 #configurando a API:
 app = Flask(__name__)
 
+#rota para apresentar todos os planetas
 @app.route("/")
 def index():
     return jsonify({
@@ -15,5 +16,22 @@ def index():
 # a instrução return significa que queremos enviar os dados no navegador para exibi-los
 # 200 indica execução bem sucedida
 
+# !parte II 
+# retornar apenas um planeta por vez
+@app.route("/planet")
+def star():
+    #A função requests.args é usada para obter o nome da URL
+    name = request.args.get("name")
+    
+    #e a função next() cria um iterador e encontra no dicionário um elemento da lista planet_data que satisfaça a condição.
+    star_data = next(item for item in data if item["name"] == name)
+    return jsonify({
+        "data": star_data,
+        "message": "success"
+    }), 200
+
 if __name__ == "__main__":
     app.run()
+
+# * como buscar o nome dos planetas
+ # http://127.0.0.1:5000/planet?name=Canopus
